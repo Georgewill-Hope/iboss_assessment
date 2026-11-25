@@ -4,12 +4,15 @@ This file records actual AI assistance for the assessment. Update it as implemen
 
 ## Tools and use so far
 
-- **OpenAI Codex (this coding assistant):** Read and summarized the supplied assignment brief, mapped the requirements into a staged implementation plan, selected a Next.js approach consistent with the requested React frontend and an allowed Node.js backend, and drafted this documentation.
-- **Verification so far:** Compared the documentation against the supplied DOCX requirements, including server-authoritative totals/payment verification, order statuses, the three required unit-test scenarios, and submission files. No application code has been generated or tested yet.
+- **OpenAI Codex:** Generated the initial Next.js scaffold and authored the first responsive storefront landing page, global styling, and app metadata.
+- **OpenAI Codex:** Added Tailwind CSS v4, moved the storefront's styling to utility classes, and split the page into navigation, hero, collections, and footer components. The navbar's mobile menu is controlled by accessible button state.
+- **OpenAI Codex:** Reworked the landing page to present an independent bookstore, with book-centered copy and book cover illustrations in place of the earlier homewares theme.
+- **OpenAI Codex:** Added a typed ten-book sample catalog in `src/data.ts` and connected the collection section to display each book's name, author, category, NGN price, cover placeholder, stock, and description.
+- **Verification so far:** Compared the documentation against the supplied DOCX requirements, including server-authoritative totals/payment verification, order statuses, the three required unit-test scenarios, and submission files. Installed dependencies, ran `npm.cmd run lint` successfully, started the initial app and confirmed `http://localhost:3000` returned HTTP 200, then ran lint and the production build successfully after the ten-book catalog was added. No unit tests have been added or run yet.
 
-## Example of suboptimal AI output and correction
+## AI Output Evaluation and Corrections
 
-The implementation has not started, so there is not yet a real code example to report. During implementation, record one specific AI suggestion that was buggy, insecure, or otherwise unsuitable, then document:
+No specific unsuitable AI suggestion has been observed so far. During implementation, record one specific AI suggestion that was buggy, insecure, or otherwise unsuitable, then document:
 
 1. The suggested code or behavior and why it was wrong.
 2. How you noticed the issue (review, test, or manual check).

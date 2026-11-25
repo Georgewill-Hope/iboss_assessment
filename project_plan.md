@@ -1,8 +1,8 @@
-# Project Plan: E-Commerce Store
+# Project Plan: Online Bookstore
 
 ## Goal and assignment fit
 
-Build a small customer-facing store with a product catalog, validated cart, checkout, simulated test payment, receipt, and order management. The assignment specifies React.js and permits Node.js for the backend; this project uses **Next.js with React and TypeScript** for the UI and **Next.js App Router route handlers running on Node.js** for the API. This keeps the MVP in one deployable application while retaining a server boundary for order totals and payment verification.
+Build a small customer-facing bookstore with a book catalog, validated cart, checkout, simulated test payment, receipt, and order management. The assignment specifies React.js and permits Node.js for the backend; this project uses **Next.js with React and TypeScript** for the UI and **Next.js App Router route handlers running on Node.js** for the API. This keeps the MVP in one deployable application while retaining a server boundary for order totals and payment verification.
 
 ## Architecture
 
@@ -21,7 +21,7 @@ Use `Pending`, `Paid`, `Shipped`, `Delivered`, and `Failed`. New orders begin Pe
 
 Work in this order and keep each milestone reviewable before moving on.
 
-1. **Foundation (30 min):** Create the Next.js TypeScript app, choose package manager, establish folders, and confirm the app starts.
+1. **Foundation (30 min):** Create the Next.js TypeScript app, choose package manager, establish folders, and confirm the app starts. **Done:** npm, responsive landing page, successful lint, and local HTTP 200 verified.
 2. **Domain and validation (45 min):** Define product/order types, a small seed catalog, total calculation, quantity/product validation, and status transition rules.
 3. **Storefront and cart (60 min):** Build the responsive catalog and cart interactions with quantity editing, removal, stock feedback, and live totals.
 4. **Checkout and payment (60 min):** Collect customer details; create orders through the server; recalculate all prices server-side; implement simulated success/failure payment results.
@@ -42,7 +42,7 @@ The time boxes are estimates, not a reason to skip server-side integrity or the 
 
 ## Completion checklist
 
-- [ ] Catalog shows name, price, image/placeholder, and stock status.
+- [x] Catalog shows name, price, image/placeholder, and stock status.
 - [ ] Cart supports add, quantity changes, removal, and live totals; rejects invalid quantities and unavailable products.
 - [ ] Checkout validates name, email, and shipping address.
 - [ ] Server recalculates totals from its catalog and does not accept client prices or payment statuses as authoritative.
@@ -51,9 +51,12 @@ The time boxes are estimates, not a reason to skip server-side integrity or the 
 - [ ] Unit tests cover authoritative total calculation, verified successful payment, and invalid input/transition handling.
 - [ ] README setup, run, test, and usage instructions match the actual implementation.
 - [ ] AI_USAGE.md records actual assistance, verification, and a concrete suboptimal-output example observed during implementation.
-- [ ] Push to a shareable GitHub repository before **Monday, November 30, 2026, 2:00 PM**.
 
 ## Progress log
 
 - **Planning:** Reviewed the attached assignment brief and selected Next.js/React/TypeScript with Node.js route handlers, in-memory storage, and simulated payment for the MVP.
-- **Next step:** Scaffold the application and confirm the development server runs.
+- **Foundation started:** Generated the Next.js App Router, TypeScript, and ESLint scaffold in the repository root; added a responsive storefront landing page and updated app metadata. The first scaffold attempt conflicted with existing documentation files, so generation was done in a temporary directory and the application files were merged while preserving the project docs.
+- **Frontend structure:** Added Tailwind CSS v4 and split the storefront into `Navbar`, `Hero`, `CollectionSection`, and `SiteFooter` components. The navbar includes an accessible mobile menu button and collapsible navigation.
+- **Bookshop visual direction:** Replaced the homewares copy and decorative shapes with an independent bookshop identity, illustrated book covers, and Fiction, Nonfiction, and Young Readers collections.
+- **Catalog MVP:** Added ten typed sample book records in `src/data.ts` and a responsive product grid with book names, authors, categories, NGN prices, CSS cover placeholders, stock status, and descriptions.
+- **Next step:** Define typed product/order models, seed catalog data, server-side total and quantity validation, and allowed status transitions.
