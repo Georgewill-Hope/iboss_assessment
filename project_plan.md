@@ -43,7 +43,7 @@ The time boxes are estimates, not a reason to skip server-side integrity or the 
 ## Completion checklist
 
 - [x] Catalog shows name, price, image/placeholder, and stock status.
-- [ ] Cart supports add, quantity changes, removal, and live totals; rejects invalid quantities and unavailable products.
+- [x] Cart supports add, quantity changes, removal, and live totals; rejects invalid quantities and unavailable products.
 - [ ] Checkout validates name, email, and shipping address.
 - [ ] Server recalculates totals from its catalog and does not accept client prices or payment statuses as authoritative.
 - [ ] Payment success and failure produce clear receipt/retry experiences.
@@ -59,4 +59,5 @@ The time boxes are estimates, not a reason to skip server-side integrity or the 
 - **Frontend structure:** Added Tailwind CSS v4 and split the storefront into `Navbar`, `Hero`, `CollectionSection`, and `SiteFooter` components. The navbar includes an accessible mobile menu button and collapsible navigation.
 - **Bookshop visual direction:** Replaced the homewares copy and decorative shapes with an independent bookshop identity, illustrated book covers, and Fiction, Nonfiction, and Young Readers collections.
 - **Catalog MVP:** Added ten typed sample book records in `src/data.ts` and a responsive product grid with book names, authors, categories, NGN prices, CSS cover placeholders, stock status, and descriptions.
-- **Next step:** Define typed product/order models, seed catalog data, server-side total and quantity validation, and allowed status transitions.
+- **Cart and catalog interaction:** Added stock-aware add-to-cart buttons, a persistent Zustand cart with quantity editing and removal, a cart count and subtotal, and a cart validation Server Action that checks product IDs and quantities and calculates prices from the server catalog. Persisted cart data is checked against the current catalog when it loads. The action currently validates cart contents only; order creation and reservation are not implemented.
+- **Next step:** Add order models and server-side order storage, customer and shipping validation, then implement checkout and simulated payment.

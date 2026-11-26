@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { books } from "@/data";
+import AddToCartButton from "@/components/add-to-cart-button";
 
 const imageBlurDataUrl =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 50'%3E%3Cfilter id='b' x='0' y='0'%3E%3CfeGaussianBlur stdDeviation='8'/%3E%3C/filter%3E%3Crect width='40' height='50' fill='%23d7c9ad' filter='url(%23b)'/%3E%3C/svg%3E";
@@ -32,12 +33,12 @@ export default function CollectionSection() {
             <article
               className={`group flex gap-4 rounded-md border p-4 transition-shadow sm:block cursor-pointer ${
                 isUnavailable
-                  ? "border-[#39443f] bg-[#303a35] text-[#e9e8df] shadow-inner shadow-black/10 opacity-70"
+                  ? "border-[#39443f] bg-[#303a35] text-[#e9e8df] shadow-inner shadow-black/10 opacity-40"
                   : "border-[#e8e5da] bg-[#fffdf8] hover:shadow-[0_10px_30px_-20px_#27372d]"
               }`}
               key={book.id}
             >
-              <div className="relative aspect-[4/5] w-28 shrink-0 overflow-hidden rounded-sm bg-[#eee9dc] shadow-sm transition-transform duration-300 group-hover:-translate-y-1 sm:mb-4 sm:w-full">
+              <div className="relative aspect-4/5 w-28 shrink-0 overflow-hidden rounded-sm bg-[#eee9dc] shadow-sm transition-transform duration-300 group-hover:-translate-y-1 sm:mb-4 sm:w-full">
                 {book.image ? (
                   <Image
                     alt={`${book.name} cover`}
@@ -76,21 +77,34 @@ export default function CollectionSection() {
                 )}
               </div>
 
-              <div className="flex min-w-0 flex-1 flex-col sm:min-h-[180px]">
-                <p className={`mb-1 text-[9px] font-bold uppercase tracking-[1.3px] ${isUnavailable ? "text-[#e5a28b]" : "text-[#bd5c3d]"}`}>
+              <div className="flex min-w-0 flex-1 flex-col sm:min-h-45">
+                <p
+                  className={`mb-1 text-[9px] font-bold uppercase tracking-[1.3px] ${isUnavailable ? "text-[#e5a28b]" : "text-[#bd5c3d]"}`}
+                >
                   {book.category}
                 </p>
-                <h3 className={`font-serif text-lg leading-snug ${isUnavailable ? "text-[#f1efe7]" : "text-[#27372d]"}`}>
+                <h3
+                  className={`font-serif text-lg leading-snug ${isUnavailable ? "text-[#f1efe7]" : "text-[#27372d]"}`}
+                >
                   {book.name}
                 </h3>
-                <p className={`mt-1 text-xs ${isUnavailable ? "text-[#c1c7c0]" : "text-[#73796f]"}`}>by {book.author}</p>
-                <p className={`mt-3 line-clamp-3 text-xs leading-relaxed ${isUnavailable ? "text-[#c1c7c0]" : "text-[#62695f]"}`}>
+                <p
+                  className={`mt-1 text-xs ${isUnavailable ? "text-[#c1c7c0]" : "text-[#73796f]"}`}
+                >
+                  by {book.author}
+                </p>
+                <p
+                  className={`mt-3 line-clamp-3 text-xs leading-relaxed ${isUnavailable ? "text-[#c1c7c0]" : "text-[#62695f]"}`}
+                >
                   {book.description}
                 </p>
                 <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4">
-                  <span className={`font-semibold ${isUnavailable ? "text-[#f1efe7]" : "text-[#27372d]"}`}>
+                  <span
+                    className={`font-semibold ${isUnavailable ? "text-[#f1efe7]" : "text-[#27372d]"}`}
+                  >
                     {formatPrice.format(book.price)}
                   </span>
+                  <AddToCartButton id={book.id} unavailable={isUnavailable} />
                 </div>
               </div>
             </article>
