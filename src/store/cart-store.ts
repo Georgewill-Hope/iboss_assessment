@@ -19,11 +19,20 @@ export const useCartStore = create<CartStore>()(
         set((state) => {
           const book = books.find((item) => item.id === productId);
           if (!book || book.stock < 1) return state;
-          const existing = state.items.find((item) => item.productId === productId);
+          const existing = state.items.find(
+            (item) => item.productId === productId,
+          );
           if (existing) {
-            return { items: state.items.map((item) => item.productId === productId
-              ? { ...item, quantity: Math.min(item.quantity + 1, book.stock) }
-              : item) };
+            return {
+              items: state.items.map((item) =>
+                item.productId === productId
+                  ? {
+                      ...item,
+                      quantity: Math.min(item.quantity + 1, book.stock),
+                    }
+                  : item,
+              ),
+            };
           }
           return { items: [...state.items, { productId, quantity: 1 }] };
         }),
@@ -31,14 +40,22 @@ export const useCartStore = create<CartStore>()(
         set((state) => {
           const book = books.find((item) => item.id === productId);
           if (!book || !Number.isInteger(quantity) || quantity < 1) {
-            return { items: state.items.filter((item) => item.productId !== productId) };
+            return {
+              items: state.items.filter((item) => item.productId !== productId),
+            };
           }
-          return { items: state.items.map((item) => item.productId === productId
-            ? { ...item, quantity: Math.min(quantity, book.stock) }
-            : item) };
+          return {
+            items: state.items.map((item) =>
+              item.productId === productId
+                ? { ...item, quantity: Math.min(quantity, book.stock) }
+                : item,
+            ),
+          };
         }),
       removeItem: (productId) =>
-        set((state) => ({ items: state.items.filter((item) => item.productId !== productId) })),
+        set((state) => ({
+          items: state.items.filter((item) => item.productId !== productId),
+        })),
     }),
     {
       name: "nook-cart",
@@ -46,11 +63,26 @@ export const useCartStore = create<CartStore>()(
       skipHydration: true,
       merge: (saved, current) => {
         const savedItems = (saved as Partial<CartStore> | undefined)?.items;
-        const items = Array.isArray(savedItems) ? savedItems.flatMap((item) => {
-          const book = books.find((product) => product.id === item?.productId);
-          if (!book || book.stock < 1 || !Number.isInteger(item.quantity) || item.quantity < 1) return [];
-          return [{ productId: book.id, quantity: Math.min(item.quantity, book.stock) }];
-        }) : [];
+        const items = Array.isArray(savedItems)
+          ? savedItems.flatMap((item) => {
+              const book = books.find(
+                (product) => product.id === item?.productId,
+              );
+              if (
+                !book ||
+                book.stock < 1 ||
+                !Number.isInteger(item.quantity) ||
+                item.quantity < 1
+              )
+                return [];
+              return [
+                {
+                  productId: book.id,
+                  quantity: Math.min(item.quantity, book.stock),
+                },
+              ];
+            })
+          : [];
         return { ...current, items };
       },
     },

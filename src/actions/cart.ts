@@ -1,6 +1,7 @@
 "use server";
 
 import { books } from "@/data";
+import { getAvailableStock } from "@/lib/orders";
 import { z } from "zod";
 
 type CartLine = {
@@ -88,10 +89,11 @@ export async function validateCart(input: unknown): Promise<CartResult> {
       };
     }
 
-    if (item.quantity > book.stock) {
+    const availableStock = getAvailableStock(book.id);
+    if (item.quantity > availableStock) {
       return {
         success: false,
-        error: `${book.name} has only ${book.stock} in stock.`,
+        error: `${book.name} has only ${availableStock} in stock.`,
       };
     }
 

@@ -37,17 +37,20 @@ The time boxes are estimates, not a reason to skip server-side integrity or the 
 - A simulated payment endpoint is explicitly allowed and avoids payment credentials and external account setup. It must still model success and failure and verify the result on the server before changing order state.
 - In-memory storage is the fastest permitted storage option and has no setup cost. Orders and stock are temporary and can reset on restart.
 - Seeded products use local placeholders or lightweight local assets; no external product API is needed.
-- This is a single-store assessment MVP, not a production commerce system. Authentication, real payment processing, durable persistence, concurrency controls, and deployment are out of scope unless the implementation reveals they are needed.
+- This is a single-store assessment MVP, not a production commerce system. Admin order management uses the requested fixed demo username/password, a simple React state login, and server-side credential checks on protected order actions. Customer accounts, production authentication, real payment processing, durable order persistence, concurrency controls, and deployment are out of scope.
 - Displayed client totals are for convenience only. The server is authoritative for product existence, stock, prices, order totals, payment result, and allowed status changes.
 
 ## Completion checklist
 
 - [x] Catalog shows name, price, image/placeholder, and stock status.
 - [x] Cart supports add, quantity changes, removal, and live totals; rejects invalid quantities and unavailable products.
-- [ ] Checkout validates name, email, and shipping address.
-- [ ] Server recalculates totals from its catalog and does not accept client prices or payment statuses as authoritative.
-- [ ] Payment success and failure produce clear receipt/retry experiences.
-- [ ] Order management lists items, totals, timestamps, statuses; supports status filtering and only valid fulfillment transitions.
+- [x] Checkout validates name, email, and shipping address.
+- [x] Server recalculates totals from its catalog and verifies the mock provider response before applying a result to a pending order.
+- [x] Payment success and failure produce clear receipt/retry experiences.
+- [x] Order management lists items, totals, timestamps, statuses; supports status filtering and only valid fulfillment transitions.
+- [x] Admin order management and fulfillment actions require the fixed admin credentials checked server-side.
+- [x] Customers can look up their matching order using checkout email plus the full order reference and view products, status, and receipt.
+- [x] Customer lookup is at `/orders`; admin dashboard is at `/admin/orders`, with admin receipts at `/admin/orders/[orderId]`.
 - [ ] Unit tests cover authoritative total calculation, verified successful payment, and invalid input/transition handling.
 - [ ] README setup, run, test, and usage instructions match the actual implementation.
 - [ ] AI_USAGE.md records actual assistance, verification, and a concrete suboptimal-output example observed during implementation.
@@ -59,5 +62,8 @@ The time boxes are estimates, not a reason to skip server-side integrity or the 
 - **Frontend structure:** Added Tailwind CSS v4 and split the storefront into `Navbar`, `Hero`, `CollectionSection`, and `SiteFooter` components. The navbar includes an accessible mobile menu button and collapsible navigation.
 - **Bookshop visual direction:** Replaced the homewares copy and decorative shapes with an independent bookshop identity, illustrated book covers, and Fiction, Nonfiction, and Young Readers collections.
 - **Catalog MVP:** Added ten typed sample book records in `src/data.ts` and a responsive product grid with book names, authors, categories, NGN prices, CSS cover placeholders, stock status, and descriptions.
-- **Cart and catalog interaction:** Added stock-aware add-to-cart buttons, a persistent Zustand cart with quantity editing and removal, a cart count and subtotal, and a cart validation Server Action that checks product IDs and quantities and calculates prices from the server catalog. Persisted cart data is checked against the current catalog when it loads. The action currently validates cart contents only; order creation and reservation are not implemented.
-- **Next step:** Add order models and server-side order storage, customer and shipping validation, then implement checkout and simulated payment.
+- **Cart and catalog interaction:** Added stock-aware add-to-cart buttons, a persistent Zustand cart with quantity editing and removal, a cart count and subtotal, and a cart validation Server Action that checks product IDs and quantities and calculates prices from the server catalog. Persisted cart data is checked against the current catalog when it loads.
+- **Checkout and order management:** Added Zod validation for customer details and cart lines, server-authoritative order totals, process-local order and inventory storage, stock reservation at order creation, and stock release after a failed simulated payment. Added receipt pages, success/failure test payment choices, status filtering, and guarded Paid → Shipped → Delivered fulfillment controls.
+- **Admin and customer order access:** Simplified admin access to a React `useState` login with the requested `Admin` / `12345` credentials; order listing and fulfillment server actions independently check the credentials. Customer lookup requires checkout email and the full order reference and is available at `/orders`. The admin layout shares login state across `/admin/orders` and its dynamic receipt route at `/admin/orders/[orderId]`.
+- **Verification:** `npm.cmd run lint` and `npm.cmd run build` pass after simplifying admin access and moving customer lookup to `/orders`. The admin layout sets `instant = false` because it intentionally withholds child pages until the in-memory login state is set; this follows the installed Next.js route config guidance for a gated route. Earlier fixes handled the Cache Components `force-dynamic` incompatibility and the receipt URL data warning using the installed Next.js 16 docs. Unit tests and manual end-to-end payment walkthrough remain outstanding.
+- **Next step:** Add required unit tests for authoritative totals, successful payment transition, invalid input, and invalid fulfillment transitions; then manually walk through checkout success and failure.

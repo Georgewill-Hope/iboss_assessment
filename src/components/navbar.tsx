@@ -9,6 +9,7 @@ import { validateCart } from "@/actions/cart";
 const links = [
   { label: "Browse books", href: "/#collections" },
   { label: "About the bookshop", href: "/about" },
+  { label: "Orders", href: "/orders" },
 ];
 
 function CartIcon() {
@@ -150,6 +151,7 @@ export default function Navbar() {
               </ul>
               <div className="flex justify-between border-t border-[#dfdfd5] py-4 text-sm font-semibold"><span>Subtotal</span><span>{formatPrice(displayTotal)}</span></div>
               <button className="w-full bg-[#27372d] px-4 py-3 text-xs text-white disabled:opacity-60" disabled={checking} onClick={checkCart} type="button">{checking ? "Checking…" : "Check cart total"}</button>
+              <Link className="mt-2 block w-full bg-[#bd5c3d] px-4 py-3 text-center text-xs text-white no-underline" href="/cart" onClick={() => setCartOpen(false)}>Continue to checkout</Link>
               {cartMessage && <p aria-live="polite" className="mt-3 text-xs text-[#526b58]">{cartMessage}</p>}
             </>
           )}
